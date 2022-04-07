@@ -7,6 +7,7 @@ import seedu.command.Command;
 import seedu.command.DeleteCommand;
 import seedu.command.IncorrectCommand;
 import seedu.command.ListCommand;
+import seedu.command.ModificationCommand;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -335,6 +336,15 @@ class ParserTest {
         Throwable exception = assertThrows(IncompleteCommandException.class, () -> parser.extractArguments(
                 "x/`Speaker B` a/`Speaker` b/`1000` d/`Loud Technologies` e/`2022-02-23`"));
         assertEquals(IncompleteCommandException.NO_PARAMETERS_FOUND, exception.getMessage());
+    }
+
+    @Test
+    void extractArguments_correctCaseConverted_success() throws IncompleteCommandException {
+        ArrayList<String> actualResult = parser.extractArguments("S/`S1404115Ax` n/`Speaker B` "
+                + "c/`1000` Pf/`Loud Technologies` t/`sPEAKeR` PD/`2022-02-23`");
+        ArrayList<String> expectedResult = new ArrayList<>(Arrays.asList("s/S1404115Ax",
+                "n/Speaker B", "c/1000", "pf/Loud Technologies", "t/Speaker", "pd/2022-02-23"));
+        assertEquals(actualResult, expectedResult);
     }
 
     @Test
